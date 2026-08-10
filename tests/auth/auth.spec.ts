@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {AuthRegister} from "../pages/authRegister";
+import {AuthRegister} from "../../pages/authRegister";
 import {faker} from "@faker-js/faker";
 
 let authPage: AuthRegister;
