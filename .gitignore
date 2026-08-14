@@ -1,0 +1,28 @@
+# 1. Твій редактор (JetBrains)
+/shelf/
+/workspace.xml
+/httpRequests/
+/queries/
+/dataSources/
+/dataSources.local.xml
+.idea/
+
+# 2. Node.js (Критично важливо!)
+node_modules/
+.env
+.env.*
+!.env.example
+
+# 3. Playwright Reports (Звіти та відео тестів)
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
+playwright/.auth/
+
+# 4. Кеш та системні файли
+.cache/
+dist/
+build/
+.DS_Store
+Thumbs.db
