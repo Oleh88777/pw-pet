@@ -43,9 +43,7 @@ export class AuthRegister {
       await this.dateOfBirth.fill(user.dateOfBirth);
     }
 
-    async customerAddressDetails(user: UserData,
-
-    ) {
+    async customerAddressDetails(user: UserData): Promise<void> {
         await this.selectCountry.selectOption(['CZ']);
         await this.postalCode.fill(user.postalCode);
         await this.houseNumber.fill(user.houseNumber);
@@ -57,5 +55,14 @@ export class AuthRegister {
     async customerContactsDetails(user: UserData): Promise<void> {
       await this.phoneNumber.fill(user.phone);
       await this.userEmail.fill(user.emailAddress);
+    }
+
+    async fullRegistration(user: UserData): Promise<void> {
+        await this.registrationButton.click();
+        await this.customerDetails(user);
+        await this.customerAddressDetails(user);
+        await this.customerContactsDetails(user);
+        await this.password.fill(user.password);
+        await this.registerButton.click();
     }
 }
