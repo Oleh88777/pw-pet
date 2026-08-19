@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "auth": "npx playwright test tests/e2e/auth/auth.spec.ts --project=auth-guest",
+    "payment": "npx playwright test tests/e2e/payment/payment.spec.ts --project=payment"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Oleh88777/pw-pet.git"

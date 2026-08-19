@@ -43,18 +43,16 @@ export default defineConfig({
     },
     {
       name: 'auth-guest',
-      testMatch: '**/e2e/auth/**',
+      testMatch: '**/e2e/auth/auth.spec.ts',
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup'],
     },
     {
-      name: 'e2e-authenticated',
-      testMatch: '**/e2e/shopping/**',
-      use: {
-        ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
+      name: 'payment',
+      testMatch: '**/e2e/payment/**',
+      use: { ...devices['Desktop Chrome'],
+        headless: false
       },
-      dependencies: ['setup'],
     },
 
   ],
