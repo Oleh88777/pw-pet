@@ -7,7 +7,7 @@ import {ApiAuth} from "../api-clas/authApi";
 
 const authFile = 'playwright/.auth/user.json';
 
-setup('authenticate', async ({page, request}) => {
+setup('authenticate auth', async ({page, request}) => {
 
     const loginPage = new LoginPage(page);
     const apiAuth = new ApiAuth(request);

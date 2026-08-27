@@ -1,30 +1,27 @@
-import { expect, test } from '@playwright/test';
-import { LoginPage } from "../../../pages/login";
-import { createAutoCzUser } from "../../../test-data/testUser";
-import {UserData} from "../../../ts-types/types";
-import {ApiAuth} from "../../../api-clas/authApi";
+import {expect, Locator, test} from '@playwright/test';
+import {LoginPage} from "../../../pages/login";
 
 
-let loginPage: LoginPage;
 
 test.describe('Payment Flow', () => {
-    test.beforeEach(async ({ page }) => {
-        await page.goto('/auth/login');
-        loginPage = new LoginPage(page);
+    test.beforeEach(async ({page}) => {
+        await page.goto('category/hand-tools');
     });
 
-    test('Create User for Payment flow and Log In', async ({ request, page }) => {
-        const authAPI = new ApiAuth(request);
-        const paymentUser: UserData = createAutoCzUser();
 
-        await test.step('Register new user via API', async () => {
-            const createPaymentUser = await authAPI.manualRegister(paymentUser);
-            expect(createPaymentUser.status()).toBe(201);
-        });
+    test('Happy Path Payment Flow', async ({page}) => {
 
-        await test.step('Login with dynamically created user', async () => {
-            await loginPage.manualLogin(paymentUser.emailAddress, paymentUser.password, loginPage.buttonLogin);
-            await expect(page).toHaveURL('account');
+        const item: Locator = page.getByRole('heading', {name: 'Combination Pliers'});
+        const buttAddCard: Locator = page.getByTestId('add-to-cart');
+        const iconCard: Locator = page.getByTestId('nav-cart');
+
+
+        await test.step('Add item to the Card', async () => {
+            await item.click();
+            await expect(page).toHaveURL(/\/product\//);
+            await buttAddCard.click();
+            await iconCard.click();
+            await expect(page).toHaveURL(/\/checkout/);
         });
     });
 });
