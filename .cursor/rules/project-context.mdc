@@ -1,0 +1,14 @@
+---
+description: Project Context and Target Application
+globs: *
+---
+
+# Project Context
+- We are building an automated testing framework using Playwright and TypeScript.
+- The target application under test is a demo webshop: "Practice Software Testing".
+- **Base URL for UI:** `https://practicesoftwaretesting.com`
+- **Base URL for API:** `https://api.practicesoftwaretesting.com`
+
+# Instructions for AI
+- When generating tests, assume the `baseURL` is already configured.
+- Do not use hardcoded absolute URLs (like `page.goto('https://...')`). Instead, use relative paths (e.g., `page.goto('/')` or `page.goto('/cart')`).

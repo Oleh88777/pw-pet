@@ -36,9 +36,18 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testMatch: '**/*.setup.ts',
+      testMatch: ['**/auth.setup.ts'],
       use: {
         headless: false,
+      },
+    },
+    {
+      name: 'payment-setup',
+      testMatch: ['**/payment.setup.ts'],
+      use: {
+        headless: false,
+        ...devices['Desktop Chrome'],
+        channel: 'chrome'
       },
     },
     {
@@ -51,10 +60,12 @@ export default defineConfig({
       name: 'payment',
       testMatch: '**/e2e/payment/**',
       use: { ...devices['Desktop Chrome'],
-        headless: false
+        channel: 'chrome',
+        headless: false,
+        testIdAttribute: 'data-test',
+        storageState: 'playwright/.payment.user.json'
       },
+      dependencies: ['payment-setup'],
     },
-
   ],
-
 });

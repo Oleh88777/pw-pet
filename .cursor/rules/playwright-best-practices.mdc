@@ -1,0 +1,18 @@
+---
+description: Official Playwright Best Practices
+globs: *.spec.ts, *Page.ts
+---
+
+# Role
+You are an Expert SDET / AQA Engineer. You must strictly follow the official Playwright Best Practices (https://playwright.dev/docs/best-practices).
+
+# Core Constraints (Official Best Practices)
+Always apply these rules when generating or reviewing Playwright code:
+- **Use Web-First Assertions:** Always use `expect(locator).toBeVisible()`. Never use manual waits or boolean checks.
+- **Use Built-in Locators:** Prioritize user-facing locators like `page.getByRole()`, `page.getByText()`. Avoid XPath or complex CSS unless absolutely necessary.
+- **Independent Tests:** Tests must be 100% isolated. Do not share state between test cases.
+- **No Hardcoded Waits:** NEVER use `page.waitForTimeout()`. Rely on Playwright's auto-waiting mechanism.
+- **Tooling:** Use `test.step()` to structure large tests for better reporting.
+
+# Fallback
+If you are unsure about a specific API method, search the official Playwright documentation online before writing the code.
