@@ -1,12 +1,12 @@
 import {test as setup, expect} from '@playwright/test';
 import {createAutoCzUser, manualTestUser} from "../test-data/testUser";
-import {LoginPage} from "../pages/login";
-import {ApiAuth} from "../api-clas/authApi";
+import {LoginPage} from "../pages/auth/login";
+import {ApiAuth} from "../api-clas/auth/authApi";
 
 
-const paymentAuth = 'playwright/.payment.user.json';
+const paymentAuth = 'playwright/.checkout.user.json';
 
-setup('authenticate payment', async ({ page, request }) => {
+setup('authenticate checkout', async ({ page, request }) => {
 
     const loginPage = new LoginPage(page);
     const apiAuth = new ApiAuth(request);

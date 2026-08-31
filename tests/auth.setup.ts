@@ -1,8 +1,8 @@
 
 import {test as setup, expect} from '@playwright/test';
 import {manualTestUser} from "../test-data/testUser";
-import {LoginPage} from "../pages/login";
-import {ApiAuth} from "../api-clas/authApi";
+import {LoginPage} from "../pages/auth/login";
+import {ApiAuth} from "../api-clas/auth/authApi";
 
 
 const authFile = 'playwright/.auth/user.json';

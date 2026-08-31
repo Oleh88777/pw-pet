@@ -1,6 +1,7 @@
 ---
-description: Project Context and Target Application
+description: Project Context and Target Application (subordinate to mentor rule)
 globs: *
+alwaysApply: false
 ---
 
 # Project Context
