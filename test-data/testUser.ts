@@ -31,6 +31,6 @@ firstName: 'Oleh',
     city: 'Prague',
     state: 'Czechia',
     phone: '721720305',
-    emailAddress: 'mykhayliv88777@gmail.com',
+    emailAddress: 'mykhayliv88777+1@gmail.com',
     password: 'Europe2026$'
 }

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { AuthRegister } from "../../../pages/authRegister";
-import { LoginPage } from "../../../pages/login";
+import { AuthRegister } from "../../../pages/auth/authRegister";
+import { LoginPage } from "../../../pages/auth/login";
 import { createAutoCzUser, manualTestUser } from "../../../test-data/testUser";
 import {UserData} from "../../../ts-types/types";
 

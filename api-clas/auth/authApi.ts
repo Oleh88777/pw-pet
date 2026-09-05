@@ -1,5 +1,5 @@
 import { APIRequestContext, APIResponse } from "@playwright/test";
-import { UserData } from "../ts-types/types";
+import { UserData } from "../../ts-types/types";
 
 export class ApiAuth {
     readonly request: APIRequestContext;

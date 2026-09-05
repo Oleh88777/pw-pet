@@ -63,7 +63,7 @@ export default defineConfig({
         channel: 'chrome',
         headless: false,
         testIdAttribute: 'data-test',
-        storageState: 'playwright/.payment.user.json'
+        storageState: 'playwright/.checkout.user.json'
       },
       dependencies: ['payment-setup'],
     },

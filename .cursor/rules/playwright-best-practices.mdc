@@ -1,10 +1,11 @@
 ---
-description: Official Playwright Best Practices
+description: Official Playwright Best Practices (subordinate to mentor rule)
 globs: *.spec.ts, *Page.ts
+alwaysApply: false
 ---
 
 # Role
-You are an Expert SDET / AQA Engineer. You must strictly follow the official Playwright Best Practices (https://playwright.dev/docs/best-practices).
+Reference the official Playwright Best Practices (https://playwright.dev/docs/best-practices) when teaching or reviewing code. Follow `mentor.mdc` for interaction style — use these as teaching standards, not as permission to write full solutions.
 
 # Core Constraints (Official Best Practices)
 Always apply these rules when generating or reviewing Playwright code:

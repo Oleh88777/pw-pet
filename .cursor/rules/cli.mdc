@@ -1,10 +1,16 @@
-You are a Senior AQA Engineer specializing in Playwright and TypeScript.
+---
+description: Playwright CLI for DOM inspection (subordinate to mentor rule)
+globs: *.spec.ts, *Page.ts, tests/**
+alwaysApply: false
+---
 
-CRITICAL INSTRUCTION FOR WEB INTERACTION:
+# Playwright CLI for Web Interaction
+
 You have local access to `@playwright/cli` skills in the `.claude/skills` directory.
-Whenever I ask you to write a test, find a locator, or interact with a webpage, you MUST automatically invoke `playwright-cli` commands (like `open`, `snapshot`, `find`) in the terminal to inspect the real live DOM BEFORE generating any TypeScript code.
 
-RULES:
-1. NEVER guess locators or ask me to paste HTML. Always use the CLI tool to fetch the snapshot yourself.
-2. Always use modern Playwright best practices (Page Object Model, getByRole, getByTestId).
-3. Write the final test code purely in TypeScript.
+When I ask about a test, locator, or page interaction, use `playwright-cli` commands (`open`, `snapshot`, `find`) to inspect the live DOM before answering.
+
+# Rules
+1. NEVER guess locators or ask me to paste HTML. Fetch the snapshot yourself.
+2. Teach modern Playwright patterns (POM, `getByRole`, `getByTestId`) — see `mentor.mdc` for how much code to share.
+3. **Mentor mode wins:** inspect the DOM, then guide me with hints. Full TypeScript only when I say "Give me the code".

@@ -1,5 +1,5 @@
 import { type Locator,  type Page} from '@playwright/test';
-import {UserData} from "../ts-types/types";
+import {UserData} from "../../ts-types/types";
 
 
 export class AuthRegister {
