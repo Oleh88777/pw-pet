@@ -1,5 +1,4 @@
-import {expect, type Locator, type Page} from '@playwright/test';
-import {manualTestUser} from "../../test-data/testUser";
+import { expect, type Locator, type Page } from '@playwright/test';
 
 export class CheckoutCart {
     readonly page: Page;
@@ -7,7 +6,7 @@ export class CheckoutCart {
     readonly btnProceedToCheckout: Locator;
     readonly productName: Locator;
     readonly productQuantity: Locator;
-    readonly cardTotal: Locator
+    readonly cardTotal: Locator;
     readonly proceedToCheckout: Locator;
     readonly buttonDeleteItems: Locator;
 
@@ -18,7 +17,7 @@ export class CheckoutCart {
         this.productName = page.getByTestId('product-title');
         this.productQuantity = page.getByTestId('product-quantity');
         this.cardTotal = page.getByTestId('cart-total');
-        this.proceedToCheckout  = page.getByRole('button', {name: 'Proceed to checkout'});
+        this.proceedToCheckout = page.getByRole('button', { name: 'Proceed to checkout' });
         this.buttonDeleteItems = page.locator('a:has(svg[data-icon="xmark"])');
     }
 
@@ -26,11 +25,4 @@ export class CheckoutCart {
         const loggedInText = this.page.getByText(/you are already logged in/i);
         await expect(loggedInText).toBeVisible();
     }
-
 }
-
-
-
-
-// const cardTotal: Locator = page.getByTestId('cart-total');
-// const proceedToCheckout: Locator = page.getByRole('button', {name: 'Proceed to checkout'});
