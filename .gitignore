@@ -21,6 +21,7 @@ blob-report/
 playwright/.auth/
 playwright/.payment/
 playwright/*.user.json
+playwright/*.data.json
 .playwright-cli/
 
 # 4. Кеш та системні файли

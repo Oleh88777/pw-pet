@@ -1,6 +1,9 @@
 import {expect, Locator, test} from '@playwright/test';
+import {readFile} from 'fs/promises';
 import {ProductPage} from "../../../pages/shop/productPage";
-import {CheckoutCard} from "../../../pages/checkout/checkout";
+import {CheckoutCart} from "../../../pages/checkout/checkoutCart";
+import {CheckoutBilling} from "../../../pages/checkout/checkoutBilling";
+import {BillingAddress, UserData} from "../../../ts-types/types";
 
 
 test.describe('Payment Flow', () => {
@@ -11,7 +14,8 @@ test.describe('Payment Flow', () => {
 
     test('Happy Path Payment Flow', async ({page}) => {
         const productPage = new ProductPage(page);
-        const checkoutCard = new CheckoutCard(page);
+        const checkoutCart = new CheckoutCart(page);
+        const checkoutBilling = new CheckoutBilling(page);
 
 
 
@@ -36,22 +40,50 @@ test.describe('Payment Flow', () => {
         });
 
         await test.step('Validate the Item Name, Quantity, inside the Card', async () => {
-           await checkoutCard.iconCard.click();
+           await checkoutCart.iconCard.click();
            await expect(page).toHaveURL('checkout');
-           await expect(checkoutCard.productName).toBeVisible();
-           await expect(checkoutCard.productName).toContainText('Combination Pliers');
+           await expect(checkoutCart.productName).toBeVisible();
+           await expect(checkoutCart.productName).toContainText('Combination Pliers');
 
-           await expect(checkoutCard.productQuantity).toBeVisible();
-           await expect(checkoutCard.productQuantity).toHaveValue('1');
+           await expect(checkoutCart.productQuantity).toBeVisible();
+           await expect(checkoutCart.productQuantity).toHaveValue('1');
         });
 
-        await test.step('Validate Item Price, button Proceed to Checkout', async () => {
-         await expect(checkoutCard.cardTotal).toBeVisible();
-         await expect(checkoutCard.cardTotal).toContainText(/\$?14\.15/);
-         await expect(checkoutCard.proceedToCheckout).toBeVisible();
+        await test.step('Validate Item, Price, proceed to the Billing', async () => {
+         await expect(checkoutCart.cardTotal).toBeVisible();
+         await expect(checkoutCart.cardTotal).toContainText(/\$?14\.15/);
+         await expect(checkoutCart.buttonDeleteItems).toBeVisible();
+         await checkoutCart.proceedToCheckout.click();
+         await expect(page).toHaveURL('checkout');
+         await checkoutCart.checkUserIsSignIn();
+         await checkoutCart.proceedToCheckout.click();
+         await expect(checkoutBilling.billingTitle).toBeVisible();
+         await expect(checkoutBilling.billingTitle).toContainText("Billing Address");
         })
+
+        await test.step('Validate the Billing form Fields', async () => {
+            const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
+            const user = JSON.parse(rawUserData) as UserData;
+
+            const expected: BillingAddress = {
+                country: user.country,
+                postalCode: user.postalCode,
+                houseNumber: user.houseNumber,
+                street: user.street,
+                city: user.city,
+                state: user.state,
+            };
+
+            await expect(checkoutBilling.country).toHaveValue(expected.country);
+            await expect(checkoutBilling.postalCode).toHaveValue(expected.postalCode);
+            await expect(checkoutBilling.houseNumber).toHaveValue(expected.houseNumber);
+            await expect(checkoutBilling.street).toHaveValue(expected.street);
+            await expect(checkoutBilling.city).toHaveValue(expected.city);
+            await expect(checkoutBilling.state).toHaveValue(expected.state);
+        });
     });
 });
+
 
 
 
