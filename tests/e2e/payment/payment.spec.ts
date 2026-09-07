@@ -4,9 +4,14 @@ import { ProductPage } from '../../../pages/shop/productPage';
 import { CheckoutCart } from '../../../pages/checkout/checkoutCart';
 import { CheckoutBilling } from '../../../pages/checkout/checkoutBilling';
 import { UserData } from '../../../ts-types/types';
+import {Payment} from "../../../pages/checkout/payment";
 
 test.describe('Payment Flow', () => {
     test.beforeEach(async ({ page }) => {
+        const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
+        const user = JSON.parse(rawUserData) as UserData;
+        const checkoutBilling = new CheckoutBilling(page);
+        await checkoutBilling.mockPostcodeLookup(user);
         await page.goto('category/hand-tools');
     });
 
@@ -14,6 +19,7 @@ test.describe('Payment Flow', () => {
         const productPage = new ProductPage(page);
         const checkoutCart = new CheckoutCart(page);
         const checkoutBilling = new CheckoutBilling(page);
+        const paymentPage = new Payment(page);
 
         await test.step('Add item to the Card and Validate that Card is Visible', async () => {
             await productPage.addItemToCart('Combination Pliers');
@@ -46,6 +52,15 @@ test.describe('Payment Flow', () => {
             const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
             const user = JSON.parse(rawUserData) as UserData;
             await checkoutBilling.checkBillingFiledValues(user);
+            await checkoutCart.proceedToCheckout.click();
         });
+
+        await test.step('Select Payment Method', async () => {
+            await expect(paymentPage.title).toBeVisible();
+            await expect(paymentPage.buttonConfirm).toBeDisabled();
+            await paymentPage.selectPaymentMethod('credit-card');
+            await expect(paymentPage.buttonConfirm).toBeEnabled();
+            await paymentPage.buttonConfirm.click();
+        })
     });
 });
