@@ -27,3 +27,7 @@ export interface BillingAddress {
     city: string;
     state: string;
 }
+
+
+/* Choose Payment Type */
+export type PaymentMethod = 'bank-transfer' | 'cash-on-delivery' | 'credit-card' | 'buy-now-pay-later' | 'gift-card';

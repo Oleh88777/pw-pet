@@ -24,6 +24,28 @@ export class CheckoutBilling {
         this.billingTitle = page.getByRole('heading', { name: 'Billing Address' });
     }
 
+    /**
+     * Demo shop calls /postcode-lookup after billing prefill and overwrites
+     * street/city/state. Faker addresses often don't match → empty State (flake).
+     * Mock keeps lookup response aligned with registered user data.
+     */
+    async mockPostcodeLookup(data: BillingAddress): Promise<void> {
+        await this.page.route('**/postcode-lookup**', async (route) => {
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    street: data.street,
+                    house_number: data.houseNumber,
+                    city: data.city,
+                    state: data.state,
+                    country: data.country,
+                    postcode: data.postalCode,
+                }),
+            });
+        });
+    }
+
     async checkBillingFiledValues(data: BillingAddress): Promise<void> {
         await expect(this.postalCode).toHaveValue(data.postalCode);
         await expect(this.country).toHaveValue(data.country);
