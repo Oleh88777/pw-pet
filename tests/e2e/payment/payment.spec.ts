@@ -6,11 +6,12 @@ import { CheckoutBilling } from '../../../pages/checkout/checkoutBilling';
 import { UserData } from '../../../ts-types/types';
 import {Payment} from "../../../pages/checkout/payment";
 
-
 test.describe('Payment Flow', () => {
+    let user: UserData;
+
     test.beforeEach(async ({ page }) => {
         const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
-        const user = JSON.parse(rawUserData) as UserData;
+        user = JSON.parse(rawUserData) as UserData;
         const checkoutBilling = new CheckoutBilling(page);
         await checkoutBilling.mockPostcodeLookup(user);
         await page.goto('category/hand-tools');
@@ -50,8 +51,6 @@ test.describe('Payment Flow', () => {
         });
 
         await test.step('Validate the Billing form Fields', async () => {
-            const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
-            const user = JSON.parse(rawUserData) as UserData;
             await checkoutBilling.checkBillingFiledValues(user);
             await checkoutCart.proceedToCheckout.click();
         });
@@ -60,18 +59,15 @@ test.describe('Payment Flow', () => {
             await expect(paymentPage.title).toBeVisible();
             await expect(paymentPage.buttonConfirm).toBeDisabled();
             await paymentPage.selectPaymentMethod('credit-card');
-        })
+        });
 
-        await test.step('Fill in Card Details', async () => {;
+        await test.step('Fill in Card Details', async () => {
             await expect(paymentPage.fieldCreditCardNumber).toBeVisible();
-            await paymentPage.fillCreditCardNumber();
-            await paymentPage.fillCvv();
-            await paymentPage.fillExperationDate();
+            await paymentPage.fillCreditCardDetails();
             // await expect(paymentPage.buttonConfirm).toBeEnabled();
             // await paymentPage.buttonConfirm.click();
             // await expect(paymentPage.messagePaymentSuccessful).toBeVisible();
             // await expect(paymentPage.messagePaymentSuccessful).toHaveText('Payment was successful');
-
-        })
+        });
     });
 });

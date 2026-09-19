@@ -8,8 +8,8 @@ export class Payment {
     readonly title: Locator;
     readonly buttonConfirm: Locator;
     readonly fieldCreditCardNumber: Locator;
-    readonly  messagePaymentSuccessful: Locator;
-    readonly  expirationDate: Locator;
+    readonly messagePaymentSuccessful: Locator;
+    readonly expirationDate: Locator;
     readonly cvv: Locator;
 
     constructor(page: Page) {
@@ -23,19 +23,13 @@ export class Payment {
         this.cvv = page.getByTestId('cvv');
     }
 
-    async selectPaymentMethod (value: PaymentMethod): Promise<void> {
+    async selectPaymentMethod(value: PaymentMethod): Promise<void> {
         await this.selectPayment.selectOption(value);
     }
 
-    async fillCreditCardNumber (): Promise<void> {
-      await this.fieldCreditCardNumber.fill(cardNumber());
-    }
-
-    async fillExperationDate(): Promise<void> {
-      await this.expirationDate.fill(getExpirationDate());
-    }
-
-    async fillCvv(): Promise<void> {
+    async fillCreditCardDetails(): Promise<void> {
+        await this.fieldCreditCardNumber.fill(cardNumber());
         await this.cvv.fill(cvv());
+        await this.expirationDate.fill(getExpirationDate());
     }
 }
