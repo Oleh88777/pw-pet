@@ -6,6 +6,7 @@ import { CheckoutBilling } from '../../../pages/checkout/checkoutBilling';
 import { UserData } from '../../../ts-types/types';
 import {Payment} from "../../../pages/checkout/payment";
 
+
 test.describe('Payment Flow', () => {
     test.beforeEach(async ({ page }) => {
         const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
@@ -59,8 +60,18 @@ test.describe('Payment Flow', () => {
             await expect(paymentPage.title).toBeVisible();
             await expect(paymentPage.buttonConfirm).toBeDisabled();
             await paymentPage.selectPaymentMethod('credit-card');
-            await expect(paymentPage.buttonConfirm).toBeEnabled();
-            await paymentPage.buttonConfirm.click();
+        })
+
+        await test.step('Fill in Card Details', async () => {;
+            await expect(paymentPage.fieldCreditCardNumber).toBeVisible();
+            await paymentPage.fillCreditCardNumber();
+            await paymentPage.fillCvv();
+            await paymentPage.fillExperationDate();
+            // await expect(paymentPage.buttonConfirm).toBeEnabled();
+            // await paymentPage.buttonConfirm.click();
+            // await expect(paymentPage.messagePaymentSuccessful).toBeVisible();
+            // await expect(paymentPage.messagePaymentSuccessful).toHaveText('Payment was successful');
+
         })
     });
 });
