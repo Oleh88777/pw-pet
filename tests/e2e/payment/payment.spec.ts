@@ -1,17 +1,17 @@
 import { expect, test } from '@playwright/test';
-import { readFile } from 'fs/promises';
 import { ProductPage } from '../../../pages/shop/productPage';
 import { CheckoutCart } from '../../../pages/checkout/checkoutCart';
 import { CheckoutBilling } from '../../../pages/checkout/checkoutBilling';
 import { UserData } from '../../../ts-types/types';
-import {Payment} from "../../../pages/checkout/payment";
+import { Payment } from '../../../pages/checkout/payment';
+import { loadCheckoutUser } from '../../../utils/loadCheckoutUser';
 
 test.describe('Payment Flow', () => {
     let user: UserData;
 
     test.beforeEach(async ({ page }) => {
-        const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
-        user = JSON.parse(rawUserData) as UserData;
+        user = await loadCheckoutUser();
+
         const checkoutBilling = new CheckoutBilling(page);
         await checkoutBilling.mockPostcodeLookup(user);
         await page.goto('category/hand-tools');
