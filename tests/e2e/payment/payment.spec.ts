@@ -64,10 +64,16 @@ test.describe('Payment Flow', () => {
         await test.step('Fill in Card Details', async () => {
             await expect(paymentPage.fieldCreditCardNumber).toBeVisible();
             await paymentPage.fillCreditCardDetails();
-            // await expect(paymentPage.buttonConfirm).toBeEnabled();
-            // await paymentPage.buttonConfirm.click();
-            // await expect(paymentPage.messagePaymentSuccessful).toBeVisible();
-            // await expect(paymentPage.messagePaymentSuccessful).toHaveText('Payment was successful');
+
+            const apiPromise = page.waitForResponse(resp =>
+                resp.url().includes('payment') && resp.request().method() === 'POST'
+            );
+
+            await paymentPage.paymentButtonConfirm.click();
+            const  apiResponse= await apiPromise;
+            expect(apiResponse.status()).toBe(200);
+            await expect(paymentPage.paymentSuccessMessage).toBeVisible();
+            await expect(paymentPage.paymentSuccessMessage).toHaveText('Payment was successful');
         });
     });
 });
