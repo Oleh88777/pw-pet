@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { AuthRegister } from "../../../pages/auth/authRegister";
 import { LoginPage } from "../../../pages/auth/login";
-import { createAutoCzUser, manualTestUser } from "../../../test-data/testUser";
+import { createAutoCzUser, manualTestUser, invalidUser } from "../../../test-data/testUser";
 import {UserData} from "../../../ts-types/types";
 
 
@@ -36,5 +36,13 @@ test.describe('Auth/Login Flow', () => {
             await loginPage.manualLogin(manualTestUser.emailAddress, manualTestUser.password, loginPage.buttonLogin);
             await expect(page).toHaveURL('account');
         });
+    });
+
+    test('Enter Wrong Password Validate Error Message', async ({page}): Promise<void> => {
+        await test.step('Wrong password', async (): Promise<void> => {
+            await loginPage.manualLogin(invalidUser.emailAddress, invalidUser.password, loginPage.buttonLogin);
+            await expect(page).toHaveURL(/auth\/login/);
+            await expect(loginPage.errorMessageWrongPassword).toBeVisible();
+        })
     });
 });

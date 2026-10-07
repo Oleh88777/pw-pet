@@ -1,3 +1,4 @@
+
 /* Here is located data as user types
 Userdata mostly user in the API requests related to the login, registration, billing details.
  */
@@ -15,6 +16,7 @@ export interface UserData {
     phone: string;
     emailAddress: string;
     password: string;
+    invalidPassword?: string;
 }
 
 /* Billing details */

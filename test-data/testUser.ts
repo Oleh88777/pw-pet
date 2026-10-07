@@ -18,6 +18,7 @@ export function createAutoCzUser(): UserData {
         phone: `7${fakerCS_CZ.number.int({ min: 20, max: 99 })}${fakerCS_CZ.number.int({ min: 100, max: 999 })}${fakerCS_CZ.number.int({ min: 100, max: 999 })}`,
         emailAddress: fakerCS_CZ.internet.email(),
         password: `Qa1!${fakerCS_CZ.internet.password({ length: 10 })}`,
+        invalidPassword: fakerCS_CZ.internet.password({ length: 10 }),
     };
 }
 
@@ -32,6 +33,12 @@ export const manualTestUser: UserData = {
     city: 'Prague',
     state: 'Czechia',
     phone: '721720305',
-    emailAddress: 'mykhayliv88777@gmail.com',
+    emailAddress: 'mykhayliv88777+2@gmail.com',
     password: 'Europe2026$',
+    invalidPassword: 'Error2026$',
 };
+
+export const invalidUser = {
+    emailAddress: 'invalid001@gmail.com',
+    password: 'invalid002'
+}
