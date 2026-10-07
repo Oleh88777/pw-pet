@@ -11,6 +11,9 @@ export class Payment {
     readonly messagePaymentSuccessful: Locator;
     readonly expirationDate: Locator;
     readonly cvv: Locator;
+    readonly cardHolderName: Locator;
+    readonly paymentButtonConfirm: Locator;
+    readonly paymentSuccessMessage: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +24,9 @@ export class Payment {
         this.messagePaymentSuccessful = page.getByTestId('payment-success-message');
         this.expirationDate = page.getByTestId('expiration_date');
         this.cvv = page.getByTestId('cvv');
+        this.cardHolderName = page.getByTestId('card_holder_name');
+        this.paymentButtonConfirm = page.getByTestId('finish');
+        this.paymentSuccessMessage = page.getByTestId('payment-success-message');
     }
 
     async selectPaymentMethod(value: PaymentMethod): Promise<void> {
@@ -31,5 +37,6 @@ export class Payment {
         await this.fieldCreditCardNumber.fill(cardNumber());
         await this.cvv.fill(cvv());
         await this.expirationDate.fill(getExpirationDate());
+        await this.cardHolderName.fill('Oleh Mykhayliv');
     }
 }

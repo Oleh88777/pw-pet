@@ -1,17 +1,17 @@
 import { expect, test } from '@playwright/test';
-import { readFile } from 'fs/promises';
 import { ProductPage } from '../../../pages/shop/productPage';
 import { CheckoutCart } from '../../../pages/checkout/checkoutCart';
 import { CheckoutBilling } from '../../../pages/checkout/checkoutBilling';
 import { UserData } from '../../../ts-types/types';
-import {Payment} from "../../../pages/checkout/payment";
+import { Payment } from '../../../pages/checkout/payment';
+import { loadCheckoutUser } from '../../../utils/loadCheckoutUser';
 
 test.describe('Payment Flow', () => {
     let user: UserData;
 
     test.beforeEach(async ({ page }) => {
-        const rawUserData = await readFile('playwright/.checkout.user.data.json', 'utf-8');
-        user = JSON.parse(rawUserData) as UserData;
+        user = await loadCheckoutUser();
+
         const checkoutBilling = new CheckoutBilling(page);
         await checkoutBilling.mockPostcodeLookup(user);
         await page.goto('category/hand-tools');
@@ -64,10 +64,16 @@ test.describe('Payment Flow', () => {
         await test.step('Fill in Card Details', async () => {
             await expect(paymentPage.fieldCreditCardNumber).toBeVisible();
             await paymentPage.fillCreditCardDetails();
-            // await expect(paymentPage.buttonConfirm).toBeEnabled();
-            // await paymentPage.buttonConfirm.click();
-            // await expect(paymentPage.messagePaymentSuccessful).toBeVisible();
-            // await expect(paymentPage.messagePaymentSuccessful).toHaveText('Payment was successful');
+
+            const apiPromise = page.waitForResponse(resp =>
+                resp.url().includes('payment') && resp.request().method() === 'POST'
+            );
+
+            await paymentPage.paymentButtonConfirm.click();
+            const  apiResponse= await apiPromise;
+            expect(apiResponse.status()).toBe(200);
+            await expect(paymentPage.paymentSuccessMessage).toBeVisible();
+            await expect(paymentPage.paymentSuccessMessage).toHaveText('Payment was successful');
         });
     });
 });
