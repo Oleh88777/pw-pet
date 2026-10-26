@@ -19,7 +19,7 @@ export class Payment {
         this.page = page;
         this.selectPayment = page.getByTestId('payment-method');
         this.title = page.getByRole('heading', {name: 'Payment'});
-        this.buttonConfirm = page.getByRole('button', {name: 'Confirm'});
+        this.buttonConfirm = page.getByTestId('finish');
         this.fieldCreditCardNumber = page.getByTestId('credit_card_number');
         this.messagePaymentSuccessful = page.getByTestId('payment-success-message');
         this.expirationDate = page.getByTestId('expiration_date');

@@ -44,6 +44,7 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: ['**/auth.setup.ts'],
+      testIgnore: ['**/api-tests/**'],
       use: {
         headless: false,
       },
@@ -51,6 +52,7 @@ export default defineConfig({
     {
       name: 'payment-setup',
       testMatch: ['**/payment.setup.ts'],
+      testIgnore: ['**/api-tests/**'],
       use: {
         headless: false,
         ...devices['Desktop Chrome'],
@@ -60,12 +62,14 @@ export default defineConfig({
     {
       name: 'auth-guest',
       testMatch: '**/e2e/auth/auth.spec.ts',
+      testIgnore: ['**/api-tests/**'],
       use: { ...devices['Desktop Chrome'] },
       dependencies: ['setup'],
     },
     {
       name: 'payment',
       testMatch: '**/e2e/payment/**',
+      testIgnore: ['**/api-tests/**'],
       use: { ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: false,
@@ -74,5 +78,17 @@ export default defineConfig({
       },
       dependencies: ['payment-setup'],
     },
+    {
+      name: 'api-e2e-tests',
+      testDir: 'api-tests',
+      use: {
+        baseURL: 'https://api.practicesoftwaretesting.com',
+        headless: true,
+        extraHTTPHeaders: {
+            Accept: 'application/json'
+        }
+      }
+
+    }
   ],
 });

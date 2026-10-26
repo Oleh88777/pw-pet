@@ -2,7 +2,7 @@
 import {test as setup, expect} from '@playwright/test';
 import {manualTestUser} from "../test-data/testUser";
 import {LoginPage} from "../pages/auth/login";
-import {ApiAuth} from "../api-clas/auth/authApi";
+import {ApiAuth} from "../api-pages/auth/authApi";
 
 
 const authFile = 'playwright/.auth/user.json';
@@ -12,7 +12,7 @@ setup('authenticate auth', async ({page, request}) => {
     const loginPage = new LoginPage(page);
     const apiAuth = new ApiAuth(request);
 
-    const apiRegisterNewUser = await apiAuth.manualRegister(manualTestUser);
+    const apiRegisterNewUser = await apiAuth.registerUser(manualTestUser);
 
     const apiStatus = apiRegisterNewUser.status();
     expect([201, 409]).toContain(apiStatus);

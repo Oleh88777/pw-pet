@@ -2,7 +2,7 @@ import { test as setup, expect } from '@playwright/test';
 import { writeFile } from 'fs/promises';
 import { createAutoCzUser } from '../test-data/testUser';
 import { LoginPage } from '../pages/auth/login';
-import { ApiAuth } from '../api-clas/auth/authApi';
+import { ApiAuth } from '../api-pages/auth/authApi';
 
 const paymentAuth = 'playwright/.checkout.user.json';
 const userBillingData = 'playwright/.checkout.user.data.json';
@@ -13,7 +13,7 @@ setup('authenticate checkout', async ({ page, request }) => {
 
     const autoUser = createAutoCzUser();
 
-    const apiRegisterAutoUser = await apiAuth.manualRegister(autoUser);
+    const apiRegisterAutoUser = await apiAuth.registerUser(autoUser);
     const apiStatus = apiRegisterAutoUser.status();
     expect([201, 409]).toContain(apiStatus);
 
